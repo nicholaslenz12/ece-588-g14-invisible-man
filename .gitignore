@@ -1,0 +1,6 @@
+# Matlab temp files
+*.m~
+
+# Vim
+.*swp
+.*swo
