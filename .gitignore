@@ -4,3 +4,7 @@
 # Vim
 .*swp
 .*swo
+
+# Images
+*.png
+*.jpg
