@@ -1,4 +1,4 @@
-function Iout = dArg(Iin, filtSz)
+function Iout = darg(Iin, filtSz)
 
 % Crops the image to square
 [m, n, c] = size(Iin);
