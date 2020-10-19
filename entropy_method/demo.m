@@ -1,5 +1,5 @@
 % IMPORT THE IMAGE
-Iin = imread("../Liu/Liu17.PNG");
+Iin = imread("../Images/Liu17.PNG");
 
 % PROCESS HERE
 % Iout = entropyBlkProc(Iin, 7, 3);

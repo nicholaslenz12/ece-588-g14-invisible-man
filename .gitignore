@@ -1,6 +1,9 @@
 # Matlab temp files
 *.m~
 
+# Python
+*.ipynb_checkpoints/
+
 # Vim
 .*swp
 .*swo
