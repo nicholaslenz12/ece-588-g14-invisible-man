@@ -57,7 +57,7 @@ for f in filename_pbar:
         for b_y in range(n_blocks_y):
             block = img[b_y * args.size:(b_y + 1) * args.size, b_x * args.size:(b_x + 1) * args.size]
 
-            if block.shape[0] == args.size or block.shape[1] == args.size:
+            if block.shape[0] == args.size and block.shape[1] == args.size:
                 cv2.imwrite('blocks/'+f.split('.')[0]+'/{}.png'.format(idx), block)
 
             idx += 1
