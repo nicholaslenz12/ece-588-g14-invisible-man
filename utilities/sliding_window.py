@@ -21,7 +21,11 @@ filenames = [f for f in os.listdir(args.directory)
 filename_pbar = tqdm(filenames)
 for f in filename_pbar:
     filename_pbar.set_description("Processing %s" % f)
+    
+    labels = []
+    
     img = cv2.imread(args.directory + f)
+    mask = cv2.imread('masks/'+f, 0)
 
     if not os.path.exists('sliding_windows/'+f.split('.')[0]):
         os.makedirs('sliding_windows/'+f.split('.')[0])
@@ -34,11 +38,16 @@ for f in filename_pbar:
     for y in range(0, img.shape[0], args.margin):
         for x in range(0, img.shape[1], args.margin):
             window = img[y:y + args.size, x:x + args.size]
+            mask_window = mask[y:y + args.size, x:x + args.size]
 
             if window.shape[0] == args.size and window.shape[1] == args.size:
                 cv2.imwrite('sliding_windows/' + f.split('.')[0] + '/{}.png'.format(idx), window)
+                
+                labels.append(int( np.count_nonzero(mask_window) / (mask_window.shape[0] * mask_window.shape[1]) >= 0.5))
+                
+                idx += 1
 
-            idx += 1
-
+    labels = np.asarray(labels)
+    np.savetxt('sliding_windows/' + f.split('.')[0] + '/labels.txt', labels)
 
 
