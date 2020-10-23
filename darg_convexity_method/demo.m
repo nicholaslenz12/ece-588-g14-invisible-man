@@ -4,8 +4,7 @@
 % Z = 5*X.^2 + Y.^2;
 % Iin = Z / max(Z, [], 'all');
 
-Iin = imread("../Images/Liu10.PNG");
-I2 = rgb2gray(Iin);
+Iin = imread("../Images/Liu3.PNG");
 
-Iout = darg(I2, 1);
+Iout = darg(I2, 50);
 imshow(Iout);

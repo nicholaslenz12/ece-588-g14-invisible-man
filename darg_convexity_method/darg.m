@@ -3,7 +3,7 @@ function Iout = darg(Iin, filtSz)
 % Crops the image to square
 [m, n, c] = size(Iin);
 w = min(n, m);
-Ic = Iin(1:w, 1:w, :);
+Ic = Iin;
 
 % Convert to grayscale
 if (c == 3)
@@ -18,7 +18,7 @@ if (filtSz > 1)
     Ic = medfilt2(Ic, [filtSz filtSz]);
 end
 
-dArg = zeros(w, w);
+dArg = zeros(m, n);
 for i = 1:4
     % Rotate, then compute Yarg (partial derivative in y direc of argument of
     % gradient.
@@ -33,8 +33,8 @@ for i = 1:4
     dArg = dArg + rot90(TY, -(i-1));
 end
 
-% Squares the image pixels, normalizes to [0, 1]
 Iout = dArg.^2;
+
 largInt = max(Iout, [], 'all');
 if ( largInt > 0)
     Iout = Iout / max(dArg.^2, [], 'all');
