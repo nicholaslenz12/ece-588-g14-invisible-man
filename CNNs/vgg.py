@@ -1,6 +1,4 @@
 import warnings
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 from keras.applications.inception_v3 import InceptionV3, preprocess_input
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg19 import VGG19
@@ -9,6 +7,8 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam
 from keras.layers import Dense, Dropout, GlobalAveragePooling2D, Flatten
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -16,6 +16,7 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 base_model = VGG19(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 x = base_model.get_layer('block5_pool').output
 x = Flatten(input_shape=base_model.output_shape[1:])(x)
+x = Dense(4096, activation="relu")(x)
 x = Dense(2048, activation="relu")(x)
 x = Dense(512, activation="relu")(x)
 predictions = Dense(1, activation='softmax')(x)
@@ -25,7 +26,9 @@ model = Model(inputs=base_model.input, outputs=predictions)
 for layer in model.layers[:5]:
     layer.trainable = False
 
-opt = Adam(lr=0.01)
+print(model.summary())
+
+opt = Adam(lr=0.1)
 model.compile(optimizer=opt,
               loss='binary_crossentropy',
               metrics=['accuracy'])
@@ -61,6 +64,8 @@ history = model.fit_generator(
     epochs=EPOCHS,
     validation_data=validation_generator,
     verbose=1,
+    steps_per_epoch=300,
+    validation_steps=200,
     callbacks=[earlyStopping, mcp_save]
 )
 
@@ -68,5 +73,4 @@ model_json = model.to_json()
 with open("model.json", "w") as json_file:
     json_file.write(model_json)
 model.save_weights("model_weights.h5")
-
 
