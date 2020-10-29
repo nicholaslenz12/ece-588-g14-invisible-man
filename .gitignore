@@ -11,3 +11,6 @@
 # Images
 *.png
 *.jpg
+
+# Labels
+*labels.txt

@@ -89,7 +89,7 @@ for i in tqdm(range(X_train.shape[0])):
 print('Saving Valid')
 for i in tqdm(range(X_valid.shape[0])):
     label = y_valid[i]
-    cv2.imwrite('keras_test/dataset/valid/{}/{}.jpg'.format(str(int(label)), i), X_train[i])
+    cv2.imwrite('keras_test/dataset/valid/{}/{}.jpg'.format(str(int(label)), i), X_valid[i])
 print('Saving Test')
 for i in tqdm(range(X_test.shape[0])):
     label = y_test[i]
