@@ -10,7 +10,12 @@
 
 # Images
 *.png
+*.PNG
 *.jpg
+*.JPG
 
 # Labels
 *labels.txt
+
+# MacOS stuff
+*.DS_Store
