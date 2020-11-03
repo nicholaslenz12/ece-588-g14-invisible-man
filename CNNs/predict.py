@@ -1,6 +1,7 @@
 from keras.models import load_model, model_from_json
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
+from keras.applications.inception_v3 import InceptionV3, preprocess_input
 
 with open('./model.json', 'r') as reader:
     arch = reader.read();
@@ -14,8 +15,9 @@ model.compile(optimizer=opt,
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-eval_generator = ImageDataGenerator()
-eval_generator.flow_from_directory('keras_test/dataset/train/',
+eval_generator = ImageDataGenerator(preprocessing_function=preprocess_input)
+ev = eval_generator.flow_from_directory('keras_test/dataset/train/',
                                    class_mode='binary')
 
-loss = model.predict_generator(eval_generator)
+predictions = model.predict_generator(ev)
+print(predictions)
