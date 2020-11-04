@@ -14,10 +14,6 @@ end
 % Ic = rgb2lab(Ic);
 % Ic = Ic(:, :, 1);
 
-if (filtSz > 1)
-    Ic = medfilt2(Ic, [filtSz filtSz]);
-end
-
 dArg = zeros(m, n);
 for i = 1:4
     % Rotate, then compute Yarg (partial derivative in y direc of argument of
@@ -25,6 +21,11 @@ for i = 1:4
     Ir = rot90(Ic, i-1);
     [FX, FY] = gradient(double(Ir));
     theta = atan2(FY, FX);
+    
+    if (filtSz > 1)
+        theta = imgaussfilt(theta, filtSz);
+    end
+
     
     % Not the most efficient, but works for now. Compute partial y
     [~, TY] = gradient(theta);
